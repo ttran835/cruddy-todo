@@ -146,6 +146,7 @@ describe('todos', () => {
       todos.create(todoText, (err, createdTodo) => {
         const id = createdTodo.id;
         todos.readOne(id, (err, readTodo) => {
+          console.log('this is readTodo test ', readTodo);
           expect(readTodo).to.deep.equal({ id, text: todoText });
           done();
         });
