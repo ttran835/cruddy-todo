@@ -25,13 +25,23 @@ exports.readAll = callback => {
     if (err) {
       throw "error";
     } else {
-      files.forEach( (fileName) => {
-        let slicedName = fileName.slice(0,-4)
-        data.push({id: slicedName, text: slicedName});
+      if (files.length === 0) {
+        return callback(null, []);
+      } 
+    }
+
+    files.forEach( (fileName) => {
+      let id = fileName.slice(0,-4)
+      exports.readOne(id, (err, fileData) => {
+        data.push(fileData);
+
+        if (data.length === files.length) {
+          callback(null, data);
+
+        }
       })
-      callback(null, data);
-    };
-  }); 
+    });
+  });
 };
 
 exports.readOne = (id, callback) => {
